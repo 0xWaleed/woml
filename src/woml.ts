@@ -13,32 +13,38 @@ function extractCurrentBody(input: string): string {
 function parseHeader(input: string): [Header, string] {
 	const header: string[] = [];
 
-	let i = 0;
-
 	let type = "";
 
-	while (i < input.length) {
-		const c = input[i++];
+	const chars = input.split("");
 
-		if (c === "[") {
-			continue;
-		}
+	let i = 0;
 
+	for (const c of chars) {
+		i++;
 		if (c === ":") {
 			type = header.join("");
 			header.forEach(() => header.pop());
 			continue;
 		}
 
+		if (c === "[") {
+			continue;
+		}
+
+
 
 		if (c === "]") {
 			break;
 		}
 
+
 		header.push(c);
 	}
 
-	return [{ type, value: header.join("") }, input.substring(i)];
+
+	const h = header.join("");
+	return [{ type, value: h }, input.substring(i)];
+
 }
 
 function parseBody(input: string): [string, string] {
@@ -101,10 +107,16 @@ function parseBodyAsObject(input: string): [Dict<string>, string] {
 }
 
 function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
-	const o: { [key: string]: any } = {};
+	const o: Dict<any> = {};
 
-	let rest = input;
+	let rest = input.trim();
 	let i = 0;
+
+	if (!input.startsWith("[")) {
+		const [value, r] = parseBody(input);
+		o["$"] = value;
+		rest = r;
+	}
 
 	do {
 		const [{ type, value }, restAfterHeader] = parseHeader(rest.trim());

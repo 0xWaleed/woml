@@ -341,4 +341,17 @@ test("can parse #12", function() {
 		benefits: []
 	});
 
+});
+
+test("parse input that has no header", function() {
+	const input = `
+this is a text that has no header
+`;
+
+	const actual = parse(input);
+
+	expect(actual).toEqual({
+		"$": input.trim()
+	});
+
 })
