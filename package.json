@@ -1,0 +1,12 @@
+{
+  "name": "woml",
+  "module": "src/woml.ts",
+  "author": "0xWaleed <https://github.com/0xWaleed>",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
