@@ -1,4 +1,7 @@
-function parseHeader(input: string): [{ type: string, value: string }, string] {
+declare type Header = { type: string, value: string };
+declare type Dict<T> = { [key: string]: T }
+
+function parseHeader(input: string): [Header, string] {
 	const header: string[] = [];
 
 	let i = 0;
@@ -72,7 +75,7 @@ function parseBodyAsArray(input: string): [string[], string] {
 	return [output, input.substring(chunk.length)];
 }
 
-function parseBodyAsObject(input: string): [{ [key: string]: string }, string] {
+function parseBodyAsObject(input: string): [Dict<string>, string] {
 	const o: { [key: string]: string } = {};
 
 	let chunk = input;
@@ -101,7 +104,7 @@ function parseBodyAsObject(input: string): [{ [key: string]: string }, string] {
 	return [o, input.substring(chunk.length)];
 }
 
-function parseEntry(input: string): { [key: string]: any } {
+function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
 	const o: { [key: string]: any } = {};
 
 	let rest = input;
