@@ -2,8 +2,9 @@ declare type Header = { type: string, value: string };
 declare type Dict<T> = { [key: string]: T };
 
 declare type HeaderTypes = "string" | "object" | "array";
-declare type HeaderStructure = { [key: string]: HeaderTypes };
-declare type HeaderStructureWithOptionalValue = { [key: string]: HeaderTypes | { type: string, value?: string[] | Dict<string> | string } };
+declare type HeaderStructure = {
+	[key: string]: HeaderTypes | { type: string, value?: string[] | Dict<string> | string }
+} | { "$": string };
 
 function extractCurrentBody(input: string): string {
 	let index = input.indexOf("[");
@@ -164,11 +165,18 @@ export function parse(input: string): Dict<string | Dict<string> | string[]> {
 	return parseEntry(input.trim());
 }
 
-export function generate(structure: HeaderStructureWithOptionalValue): string {
+export function generate(structure: HeaderStructure): string {
 	const out: string[] = [];
 
 
 	for (const [key, props] of Object.entries(structure)) {
+		if (key === "$") {
+			out.push(props);
+			out.push("\n\n");
+			continue;
+		}
+
+
 		let value, type
 		if (typeof props === "object") {
 			value = props.value;

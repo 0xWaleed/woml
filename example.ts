@@ -71,6 +71,8 @@ Aldus PageMaker including versions of Lorem Ipsum.
 
 {
 	const output = generate({
+		"$": "this is a root value that has no header",
+		meta: "object",
 		name: {
 			type: "string",
 			value: "this is my value"

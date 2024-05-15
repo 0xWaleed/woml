@@ -59,6 +59,8 @@ console.log(o.options["theme"]); // "dark"
 ## Generate structure
 ```ts
 const output = generate({
+    "$": "this is a root value that has no header",
+    meta: "object",
     name: {
         type: "string",
         value: "this is my value"
@@ -81,6 +83,10 @@ const output = generate({
 
 console.log(output);
 /*
+this is a root value that has no header
+
+[o:meta]
+
 [name]
 this is my value
 

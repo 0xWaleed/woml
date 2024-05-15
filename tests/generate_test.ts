@@ -140,3 +140,32 @@ test("can generate #5", function() {
 [o:config]`);
 
 });
+
+
+test("can generate #6", function() {
+
+	const actual = generate({
+		"$": "this is a root string",
+		desc: {
+			type: "string",
+			value: ""
+		},
+		tags: {
+			type: "array",
+			value: []
+		},
+		config: {
+			type: "object"
+		}
+	});
+
+	expect(actual).toEqual(`\
+this is a root string
+
+[desc]
+
+[a:tags]
+
+[o:config]`);
+
+});
