@@ -1,0 +1,2 @@
+- Value of object entry should support multiline string
+- Parse boolean and integer
