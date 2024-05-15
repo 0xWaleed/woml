@@ -85,16 +85,16 @@ console.log(output);
 /*
 this is a root value that has no header
 
-[o:meta]
+[meta]
 
 [name]
 this is my value
 
-[a:tags]
-coffee
-programming
+[tags]
+- coffee
+- programming
 
-[o:config]
+[config]
 theme = dark
 color = gruvbox
 */

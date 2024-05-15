@@ -219,16 +219,16 @@ export function generate(structure: HeaderStructure): string {
 		}
 
 		if (type === "array") {
-			out.push(`[a:${key}]`);
+			out.push(`[${key}]`);
 
 			if (Array.isArray(value) && value.length > 0) {
 				out.push("\n");
-				out.push(value.join("\n"));
+				out.push(value.map(i => `- ${i}`).join("\n"));
 			}
 		}
 
 		if (type === "object") {
-			out.push(`[o:${key}]`);
+			out.push(`[${key}]`);
 
 			if (typeof value === "object") {
 				out.push("\n");

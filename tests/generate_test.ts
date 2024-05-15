@@ -17,9 +17,9 @@ test("can generate #1", function() {
 [desc]
 this is my value
 
-[a:tags]
+[tags]
 
-[o:config]`);
+[config]`);
 
 });
 
@@ -42,12 +42,12 @@ test("can generate #2", function() {
 [desc]
 this is my value
 
-[a:tags]
-a
-b
-c
+[tags]
+- a
+- b
+- c
 
-[o:config]`);
+[config]`);
 
 });
 
@@ -75,12 +75,12 @@ test("can generate #3", function() {
 [desc]
 this is my value
 
-[a:tags]
-a
-b
-c
+[tags]
+- a
+- b
+- c
 
-[o:config]
+[config]
 name = 0xWal
 city = Meca`);
 
@@ -107,12 +107,12 @@ test("can generate #4", function() {
 [desc]
 this is my value
 
-[a:tags]
-a
-b
-c
+[tags]
+- a
+- b
+- c
 
-[o:config]`);
+[config]`);
 
 });
 
@@ -135,9 +135,9 @@ test("can generate #5", function() {
 	expect(actual).toEqual(`\
 [desc]
 
-[a:tags]
+[tags]
 
-[o:config]`);
+[config]`);
 
 });
 
@@ -164,8 +164,8 @@ this is a root string
 
 [desc]
 
-[a:tags]
+[tags]
 
-[o:config]`);
+[config]`);
 
 });
