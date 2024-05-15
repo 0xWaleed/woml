@@ -1,6 +1,10 @@
 declare type Header = { type: string, value: string };
 declare type Dict<T> = { [key: string]: T };
 
+declare type HeaderTypes = "string" | "object" | "array";
+declare type HeaderStructure = { [key: string]: HeaderTypes };
+declare type HeaderStructureWithOptionalValue = { [key: string]: HeaderTypes | { type: string, value?: string[] | Dict<string> | string } };
+
 function extractCurrentBody(input: string): string {
 	let index = input.indexOf("[");
 	if (index === -1) {
@@ -44,7 +48,6 @@ function parseHeader(input: string): [Header, string] {
 
 	const h = header.join("");
 	return [{ type, value: h }, input.substring(i)];
-
 }
 
 function parseBody(input: string): [string, string] {
@@ -159,4 +162,54 @@ function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
 
 export function parse(input: string): Dict<string | Dict<string> | string[]> {
 	return parseEntry(input.trim());
+}
+
+export function generate(structure: HeaderStructureWithOptionalValue): string {
+	const out: string[] = [];
+
+
+	for (const [key, props] of Object.entries(structure)) {
+		let value, type
+		if (typeof props === "object") {
+			value = props.value;
+			type = props.type;
+		} else {
+			type = props
+		}
+
+		if (type === "string") {
+			out.push(`[${key}]`);
+			if (value) {
+				out.push("\n");
+				out.push(value as string);
+			}
+		}
+
+		if (type === "array") {
+			out.push(`[a:${key}]`);
+
+			if (Array.isArray(value) && value.length > 0) {
+				out.push("\n");
+				out.push(value.join("\n"));
+			}
+		}
+
+		if (type === "object") {
+			out.push(`[o:${key}]`);
+
+			if (typeof value === "object") {
+				out.push("\n");
+				for (const k in value) {
+					const v = (value as Dict<string>)[k];
+					out.push(`${k} = ${v}`);
+					out.push("\n");
+				}
+			}
+		}
+
+
+		out.push("\n\n");
+	}
+
+	return out.join("").trim();
 }
