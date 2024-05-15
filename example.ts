@@ -1,4 +1,4 @@
-import { parse } from "./src/woml";
+import { generate, parse } from "./src/woml";
 
 {
 	const input = `
@@ -67,4 +67,29 @@ Aldus PageMaker including versions of Lorem Ipsum.
 `;
 	const o = parse(input) as any;
 	console.log(o);
+}
+
+{
+	const output = generate({
+		name: {
+			type: "string",
+			value: "this is my value"
+		},
+		tags: {
+			type: "array",
+			value: [
+				"coffee",
+				"programming"
+			]
+		},
+		config: {
+			type: "object",
+			value: {
+				theme: "dark",
+				color: "gruvbox"
+			}
+		}
+	});
+
+	console.log(output);
 }
