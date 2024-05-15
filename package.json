@@ -1,12 +1,23 @@
 {
-  "name": "woml",
+  "name": "@0xwaleed/woml",
+  "version": "0.0.2",
   "module": "src/woml.ts",
   "author": "0xWaleed <https://github.com/0xWaleed>",
   "type": "module",
+  "main": "dist/woml.js",
+  "types": "dist/woml.d.ts",
+  "scripts": {
+    "build": "bun run build.mjs",
+    "prepublishOnly": "bun run build"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/0xWaleed/woml"
 }
