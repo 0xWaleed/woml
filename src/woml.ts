@@ -1,10 +1,4 @@
-declare type Header = { type: string, value: string };
-declare type Dict<T> = { [key: string]: T };
-
-declare type HeaderTypes = "string" | "object" | "array";
-declare type HeaderStructure = {
-	[key: string]: HeaderTypes | { type: string, value?: string[] | Dict<string> | string }
-} | { "$": string };
+import type { Header, Woml, HeaderStructure } from "../woml.d.ts";
 
 function extractCurrentBody(input: string): string {
 	let index = input.indexOf("[");
@@ -46,9 +40,30 @@ function parseHeader(input: string): [Header, string] {
 		header.push(c);
 	}
 
+	const after = input.substring(i);
+	const lines = after.split("\n");
+
+	for (const line of lines) {
+		if (!line) {
+			continue;
+		}
+		if (line.startsWith("-")) {
+			type = "a";
+			break;
+		}
+
+		if (line.indexOf("=") !== -1) {
+			type = "o";
+			break;
+		}
+
+		type = "";
+		break;
+	}
+
 
 	const h = header.join("");
-	return [{ type, value: h }, input.substring(i)];
+	return [{ type, value: h }, after];
 }
 
 function parseBody(input: string): [string, string] {
@@ -82,7 +97,7 @@ function parseBodyAsArray(input: string): [string[], string] {
 		if (!line) {
 			continue;
 		}
-		output.push(line);
+		output.push(line.replace(/^\-\s*/, ""));
 	}
 
 	return [output, input.substring(body.length)];
@@ -110,7 +125,7 @@ function parseBodyAsObject(input: string): [Dict<string>, string] {
 	return [o, input.substring(body.length)];
 }
 
-function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
+function parseEntry(input: string): Woml {
 	const o: Dict<any> = {};
 
 	let rest = input.trim();
@@ -136,6 +151,11 @@ function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
 				body = b;
 				rest = r.trim();
 
+				if (!b) {
+					console.log("hello")
+					body = undefined;
+				}
+
 				break
 			}
 			case "o": {
@@ -147,7 +167,12 @@ function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
 			}
 			default: {
 				const [b, r] = parseBody(restAfterHeader);
-				body = b;
+				if (!b) {
+					body = undefined;
+				} else {
+					body = b;
+				}
+
 				rest = r.trim();
 				break;
 			}
@@ -161,7 +186,7 @@ function parseEntry(input: string): Dict<string | Dict<string> | string[]> {
 	return o;
 }
 
-export function parse(input: string): Dict<string | Dict<string> | string[]> {
+export function parse(input: string): Woml {
 	return parseEntry(input.trim());
 }
 

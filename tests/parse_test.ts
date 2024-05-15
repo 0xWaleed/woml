@@ -38,11 +38,11 @@ test("can parse #3", function() {
 this is a description
 and newline
 
-[a:tags]
-coffee
-pc
+[tags]
+- coffee
+- pc
 
-hacking
+- hacking
 `;
 
 	const actual = parse(input);
@@ -64,13 +64,13 @@ test("can parse #4", function() {
 this is a description
 and newline
 
-[a:tags]
-coffee
-pc
+[tags]
+- coffee
+- pc
 
-hacking
+- hacking
 
-[o:options]
+[options]
 interval=2
 theme= dark
 color = red
@@ -101,17 +101,17 @@ test("can parse #5", function() {
 this is my task name
 
 
-[o:session]
+[session]
 work = 25
 break = 10
 
-[a:tags]
-coding
-open source
+[tags]
+- coding
+- open source
 
-[a:benefits]
-money
-social
+[benefits]
+- money
+- social
 `;
 
 	const actual = parse(input);
@@ -136,17 +136,17 @@ social
 
 test("can parse #6", function() {
 	const input = `
-[o:session]
+[session]
 work = 25
 break = 10
 
-[a:tags]
-coding
-open source
+[tags]
+- coding
+- open source
 
-[a:benefits]
-money
-social
+[benefits]
+- money
+- social
 
 [name]
 this is my task name
@@ -176,15 +176,15 @@ this is my task name
 test("can parse #7", function() {
 	const input = `
 
-[a:tags]
-coding
-open source
-[o:session]
+[tags]
+- coding
+- open source
+[session]
 work = 25
 break = 10
-[a:benefits]
-money
-social
+[benefits]
+- money
+- social
 [name]
 this is my task name
 `;
@@ -212,16 +212,16 @@ this is my task name
 test("can parse #8", function() {
 	const input = `
 
-[a:tags]
-coding
-open source
-[o:session]
+[tags]
+- coding
+- open source
+[session]
 work = 25
 break = 10
-[a:benefits]
+[benefits]
 
-money
-social
+- money
+- social
 [name]
 this is my task name
 `;
@@ -249,13 +249,13 @@ this is my task name
 test("can parse #9", function() {
 	const input = `
 
-[a:tags]
-coding
-open source
-[o:session]
+[tags]
+- coding
+- open source
+[session]
 work = 25
 break = 10
-[a:benefits]
+[benefits]
 [name]
 this is my task name
 `;
@@ -272,7 +272,7 @@ this is my task name
 			"coding",
 			"open source"
 		],
-		benefits: []
+		benefits: undefined
 	});
 
 })
@@ -280,11 +280,11 @@ this is my task name
 test("can parse #10", function() {
 	const input = `
 
-[a:tags]
-coding
-open source
-[o:session]
-[a:benefits]
+[tags]
+- coding
+- open source
+[session]
+[benefits]
 [name]
 this is my task name
 `;
@@ -293,12 +293,12 @@ this is my task name
 
 	expect(actual).toEqual({
 		name: "this is my task name",
-		session: {},
+		session: undefined,
 		tags: [
 			"coding",
 			"open source"
 		],
-		benefits: []
+		benefits: undefined
 	});
 
 })
@@ -306,9 +306,9 @@ this is my task name
 test("can parse #11", function() {
 	const input = `
 
-[a:tags]
-[o:session]
-[a:benefits]
+[tags]
+[session]
+[benefits]
 [name]
 this is my task name
 `;
@@ -317,28 +317,28 @@ this is my task name
 
 	expect(actual).toEqual({
 		name: "this is my task name",
-		session: {},
-		tags: [],
-		benefits: []
+		session: undefined,
+		tags: undefined,
+		benefits: undefined
 	});
 
 });
 
 test("can parse #12", function() {
 	const input = `
-[a:tags]
-[o:session]
-[a:benefits]
+[tags]
+[session]
+[benefits]
 [name]
 `;
 
 	const actual = parse(input);
 
 	expect(actual).toEqual({
-		name: "",
-		session: {},
-		tags: [],
-		benefits: []
+		name: undefined,
+		session: undefined,
+		tags: undefined,
+		benefits: undefined
 	});
 
 });
@@ -354,4 +354,23 @@ this is a text that has no header
 		"$": input.trim()
 	});
 
-})
+});
+
+
+test("can parse #13 with array that has spaces", function() {
+	const input = `
+[benefits]
+-                a
+-b
+`;
+
+	const actual = parse(input);
+
+	expect(actual).toEqual({
+		benefits: [
+			"a",
+			"b"
+		]
+	});
+
+});
