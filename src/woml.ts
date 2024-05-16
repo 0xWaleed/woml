@@ -1,4 +1,4 @@
-import type { Header, Woml, HeaderStructure } from "../woml.d.ts";
+import type { Header, Woml, HeaderStructure, HeaderType } from "../woml.d.ts";
 
 function extractCurrentBody(input: string): string {
 	let index = input.indexOf("[");
@@ -12,7 +12,7 @@ function extractCurrentBody(input: string): string {
 function parseHeader(input: string): [Header, string] {
 	const header: string[] = [];
 
-	let type = "";
+	let type: HeaderType = "string";
 
 	const chars = input.split("");
 
@@ -44,12 +44,11 @@ function parseHeader(input: string): [Header, string] {
 			break;
 		}
 
-		if (line.indexOf("=") !== -1) {
+		if (line.includes("=")) {
 			type = "object";
 			break;
 		}
 
-		type = "";
 		break;
 	}
 

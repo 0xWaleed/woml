@@ -1,4 +1,5 @@
-declare type Header = { type: string, value: string };
+declare type HeaderType = "object" | "array" | "string";
+declare type Header = { type: HeaderType, value: string };
 declare type Dict<T> = { [key: string]: T };
 
 declare type HeaderTypes = "string" | "object" | "array";
