@@ -1,2 +1,4 @@
 - Value of object entry should support multiline string
 - Parse boolean and integer
+- Allow escaping
+- Body should not end when encountering [ that is not in the beginning of the line
