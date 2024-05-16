@@ -20,17 +20,9 @@ function parseHeader(input: string): [Header, string] {
 
 	for (const c of chars) {
 		i++;
-		if (c === ":") {
-			type = header.join("");
-			header.forEach(() => header.pop());
-			continue;
-		}
-
 		if (c === "[") {
 			continue;
 		}
-
-
 
 		if (c === "]") {
 			break;
@@ -48,12 +40,12 @@ function parseHeader(input: string): [Header, string] {
 			continue;
 		}
 		if (line.startsWith("-")) {
-			type = "a";
+			type = "array";
 			break;
 		}
 
 		if (line.indexOf("=") !== -1) {
-			type = "o";
+			type = "object";
 			break;
 		}
 
@@ -146,19 +138,18 @@ function parseEntry(input: string): Woml {
 
 		let body;
 		switch (type) {
-			case "a": {
+			case "array": {
 				const [b, r] = parseBodyAsArray(restAfterHeader);
 				body = b;
 				rest = r.trim();
 
 				if (!b) {
-					console.log("hello")
 					body = undefined;
 				}
 
 				break
 			}
-			case "o": {
+			case "object": {
 				const [b, r] = parseBodyAsObject(restAfterHeader);
 				body = b;
 				rest = r.trim();
