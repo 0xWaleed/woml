@@ -1,6 +1,6 @@
 {
   "name": "@0xwaleed/woml",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "module": "src/woml.ts",
   "author": "0xWaleed <https://github.com/0xWaleed>",
   "type": "module",
