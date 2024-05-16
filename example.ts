@@ -6,17 +6,17 @@ import { generate, parse } from "./src/woml";
 this is my task name
 
 
-[o:session]
+[session]
 work = 25
 break = 10
 
-[a:tags]
-coding
-open source
+[tags]
+- coding
+- open source
 
-[a:benefits]
-money
-social
+[benefits]
+- money
+- social
 `;
 
 	const o = parse(input) as any;
@@ -35,14 +35,14 @@ remaining essentially unchanged. It was popularised in the 1960s with the releas
 sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
 Aldus PageMaker including versions of Lorem Ipsum.
 
-[a:tags]
+[tags]
 
-coffee
-pc
+- coffee
+- pc
 
 hacking
 
-[o:options]
+[options]
 interval=2
 theme=dark
 color=red
@@ -51,6 +51,7 @@ update=true
 `;
 	const o = parse(input) as any;
 	console.log(o.tags); // ["pc", "coffee", "hacking"]
+	console.log(o.tags?.[0]);
 	console.log(o.options["theme"]); // "dark"
 	console.log(o);
 }

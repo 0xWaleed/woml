@@ -14,17 +14,17 @@ const input = `
 this is my task name
 
 
-[o:session]
+[session]
 work = 25
 break = 10
 
-[a:tags]
-coding
-open source
+[tags]
+- coding
+- open source
 
-[a:benefits]
-money
-social
+[benefits]
+- money
+- social
 `;
 
 
@@ -38,13 +38,13 @@ const input = `
 this is a description
 and newline
 
-[a:tags]
-coffee
-pc
+[tags]
+- coffee
+- pc
 
-hacking
+- hacking
 
-[o:options]
+[options]
 interval=2
 theme=dark
 color=red
